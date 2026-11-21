@@ -1,8 +1,6 @@
-# Versi Update: Hook 5 Opsi + Quiz 10 Soal
+# Versi Update: Tanpa Penjelasan Setelah Dijawab
 
-Berikut kode HTML lengkap yang sudah diperbarui:
-- **Fitur Hook**: 5 opsi jawaban (A–E)
-- **Fitur Quiz**: 10 soal dengan variasi konseptual, hitungan, analisis fenomena, dan HOTS
+Berikut kode HTML lengkap yang sudah diperbarui. **Semua umpan balik penjelasan dihapus** — siswa hanya melihat indikator benar/salah (untuk hook, prediksi, mini lab, debat, quiz) dan rekap skor di akhir quiz. Ini menjaga agar pembelajaran tetap eksploratif dan tidak langsung membocorkan konsep.
 
 ```html
 <!DOCTYPE html>
@@ -31,8 +29,10 @@ Berikut kode HTML lengkap yang sudah diperbarui:
   .option-btn { background:white; border:2px solid #cdddec; padding:0.9rem 1.2rem; border-radius:60px; text-align:left; font-size:1rem; font-weight:500; color:#1e3f5e; cursor:pointer; transition:0.2s; }
   .option-btn:hover:not(:disabled) { background:#e9f2fe; border-color:#7aa9d9; transform:scale(1.01); }
   .option-btn.selected { background:#d4e6ff; border-color:#1e4c7a; box-shadow:0 0 0 2px #1e4c7a33; }
-  .option-btn:disabled { cursor:default; opacity:0.85; }
-  .feedback { margin-top:1rem; padding:1rem 1.2rem; border-radius:1rem; background:#fff6e0; border-left:6px solid #f4b740; animation:fadeIn 0.4s; }
+  .option-btn.correct { background:#c8f0d8; border-color:#2b8c4a; }
+  .option-btn.wrong { background:#f8d0d0; border-color:#c0392b; }
+  .option-btn:disabled { cursor:default; opacity:0.9; }
+  .feedback { margin-top:1rem; padding:1rem 1.2rem; border-radius:1rem; background:#fff6e0; border-left:6px solid #f4b740; animation:fadeIn 0.4s; font-weight:600; }
   @keyframes fadeIn { from{opacity:0; transform:translateY(-5px);} to{opacity:1; transform:translateY(0);} }
   .btn { border:none; padding:0.9rem 1.8rem; border-radius:50px; font-weight:700; font-size:1rem; background:#1e4c7a; color:white; cursor:pointer; transition:0.15s; box-shadow:0 10px 18px -8px #1e4c7a99; display:inline-flex; align-items:center; gap:0.5rem; }
   .btn:hover:not(:disabled) { background:#113a5c; transform:translateY(-2px); }
@@ -77,6 +77,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
     <span class="badge">Semua Fitur Aktif</span>
     <span class="badge">Hook 5 Opsi</span>
     <span class="badge">Quiz 10 Soal</span>
+    <span class="badge">Tanpa Bocoran Jawaban</span>
   </div>
 
   <!-- TAB NAVIGATION -->
@@ -108,7 +109,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
       </div>
       <div id="hookFeedback" class="feedback hidden"></div>
       <div class="btn-group">
-        <button class="btn" id="hookCheckBtn">🔍 Cek prediksi & argumentasi</button>
+        <button class="btn" id="hookCheckBtn">🔍 Cek prediksi</button>
       </div>
       <p class="small-note">*Guru tidak langsung memberi jawaban. Diskusikan alasanmu.</p>
     </div>
@@ -332,56 +333,36 @@ Berikut kode HTML lengkap yang sudah diperbarui:
 
   // ============ QUIZ: 10 SOAL ============
   const quizQuestions = [
-    {
-      q: "Sebuah benda bergerak dengan kecepatan konstan. Apa yang dapat disimpulkan tentang resultan gaya pada benda tersebut?",
+    { q: "Sebuah benda bergerak dengan kecepatan konstan. Apa yang dapat disimpulkan tentang resultan gaya pada benda tersebut?",
       opts: ["Resultan gaya nol", "Resultan gaya konstan tidak nol", "Resultan gaya searah gerak", "Resultan gaya berlawanan gerak", "Resultan gaya berubah-ubah"],
-      correct: 0, type: "Konseptual"
-    },
-    {
-      q: "Hukum Newton III menyatakan bahwa setiap gaya aksi memiliki pasangan reaksi. Pernyataan yang paling tepat adalah...",
+      correct: 0, type: "Konseptual" },
+    { q: "Hukum Newton III menyatakan bahwa setiap gaya aksi memiliki pasangan reaksi. Pernyataan yang paling tepat adalah...",
       opts: ["Aksi = reaksi, bekerja pada benda yang sama", "Aksi = reaksi, bekerja pada dua benda berbeda", "Gaya aksi lebih besar dari reaksi", "Reaksi hanya terjadi pada benda diam", "Aksi dan reaksi saling menghilangkan"],
-      correct: 1, type: "Konseptual"
-    },
-    {
-      q: "Troli bermassa 2 kg didorong dengan gaya 10 N. Percepatan troli adalah...",
+      correct: 1, type: "Konseptual" },
+    { q: "Troli bermassa 2 kg didorong dengan gaya 10 N. Percepatan troli adalah...",
       opts: ["2 m/s²", "5 m/s²", "10 m/s²", "20 m/s²", "0,2 m/s²"],
-      correct: 1, type: "Hitungan"
-    },
-    {
-      q: "Mengapa penumpang terdorong ke depan saat bus mengerem mendadak?",
+      correct: 1, type: "Hitungan" },
+    { q: "Mengapa penumpang terdorong ke depan saat bus mengerem mendadak?",
       opts: ["Karena gaya dorong dari kursi", "Karena inersia (kecenderungan mempertahankan gerak)", "Karena gravitasi bertambah", "Karena gaya gesek ban", "Karena udara mendorong ke depan"],
-      correct: 1, type: "Analisis Fenomena"
-    },
-    {
-      q: "HOTS: Balok diam di lantai kasar. Gaya tarik horizontal 20 N diberikan tetapi balok tetap diam. Besar gaya gesek statis yang bekerja pada balok adalah...",
+      correct: 1, type: "Analisis Fenomena" },
+    { q: "HOTS: Balok diam di lantai kasar. Gaya tarik horizontal 20 N diberikan tetapi balok tetap diam. Besar gaya gesek statis yang bekerja pada balok adalah...",
       opts: ["0 N", "20 N", "Lebih dari 20 N", "Tidak dapat ditentukan", "Kurang dari 20 N"],
-      correct: 1, type: "HOTS"
-    },
-    {
-      q: "Sebuah benda bermassa 4 kg mengalami percepatan 3 m/s². Resultan gaya yang bekerja pada benda adalah...",
+      correct: 1, type: "HOTS" },
+    { q: "Sebuah benda bermassa 4 kg mengalami percepatan 3 m/s². Resultan gaya yang bekerja pada benda adalah...",
       opts: ["7 N", "12 N", "1,33 N", "0,75 N", "24 N"],
-      correct: 1, type: "Hitungan"
-    },
-    {
-      q: "Pernyataan yang BENAR tentang pasangan aksi-reaksi adalah...",
+      correct: 1, type: "Hitungan" },
+    { q: "Pernyataan yang BENAR tentang pasangan aksi-reaksi adalah...",
       opts: ["Bekerja pada benda yang sama", "Saling meniadakan karena besarnya sama", "Bekerja pada dua benda berbeda dan besarnya sama", "Arahnya selalu sama", "Hanya terjadi pada benda yang bergerak"],
-      correct: 2, type: "Konseptual"
-    },
-    {
-      q: "Saat kamu mendorong dinding dengan gaya 50 N, dinding mendorongmu kembali dengan gaya...",
+      correct: 2, type: "Konseptual" },
+    { q: "Saat kamu mendorong dinding dengan gaya 50 N, dinding mendorongmu kembali dengan gaya...",
       opts: ["0 N", "25 N", "50 N", "100 N", "Tergantung massa dinding"],
-      correct: 2, type: "Analisis Fenomena"
-    },
-    {
-      q: "Sebuah mobil mainan massanya 0,5 kg didorong dengan gaya 2 N. Jika massa ditambah menjadi 1 kg dengan gaya sama, percepatannya menjadi...",
+      correct: 2, type: "Analisis Fenomena" },
+    { q: "Sebuah mobil mainan massanya 0,5 kg didorong dengan gaya 2 N. Jika massa ditambah menjadi 1 kg dengan gaya sama, percepatannya menjadi...",
       opts: ["2 m/s²", "4 m/s²", "1 m/s²", "0,5 m/s²", "8 m/s²"],
-      correct: 2, type: "Hitungan"
-    },
-    {
-      q: "HOTS: Sebuah benda bergerak lurus dengan kecepatan tetap 5 m/s. Tiba-tiba resultan gaya sebesar 10 N diberikan searah gerak selama 2 detik. Jika massa benda 2 kg, kecepatan akhir benda adalah...",
+      correct: 2, type: "Hitungan" },
+    { q: "HOTS: Sebuah benda bergerak lurus dengan kecepatan tetap 5 m/s. Tiba-tiba resultan gaya sebesar 10 N diberikan searah gerak selama 2 detik. Jika massa benda 2 kg, kecepatan akhir benda adalah...",
       opts: ["5 m/s", "10 m/s", "15 m/s", "20 m/s", "25 m/s"],
-      correct: 2, type: "HOTS"
-    }
+      correct: 2, type: "HOTS" }
   ];
 
   let quizAnswers = new Array(quizQuestions.length).fill(null);
@@ -426,6 +407,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
   // ============ STEP 1: HOOK (5 OPSI) ============
   document.querySelectorAll('#hookOptions .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#hookOptions .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       hookChoice = this.dataset.opt;
@@ -434,23 +416,25 @@ Berikut kode HTML lengkap yang sudah diperbarui:
 
   document.getElementById('hookCheckBtn').addEventListener('click', function() {
     if (!hookChoice) { alert('Pilih salah satu jawaban terlebih dahulu.'); return; }
+    const correctOpt = 'B';
+    document.querySelectorAll('#hookOptions .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.opt === correctOpt) b.classList.add('correct');
+      else if (b.dataset.opt === hookChoice) b.classList.add('wrong');
+    });
     const fb = document.getElementById('hookFeedback');
-    if (hookChoice === 'B') {
-      showFeedback(fb, '✅ <strong>Tepat!</strong> Tubuh cenderung mempertahankan keadaan geraknya — inilah <strong>inersia</strong> (Hukum Newton I). Tidak ada gaya tambahan ke depan; justru tubuh "ingin" terus bergerak saat bus mengerem.', true);
-    } else if (hookChoice === 'A') {
-      showFeedback(fb, '❌ <strong>Belum tepat.</strong> Kursi tidak memberikan gaya dorong ke depan saat mengerem. Justru tubuhmu yang "ingin" terus maju karena inersia (Hukum Newton I).', false);
-    } else if (hookChoice === 'C') {
-      showFeedback(fb, '❌ <strong>Belum tepat.</strong> Gravitasi tidak berubah saat bus mengerem. Yang berubah adalah kecepatan bus, bukan gravitasi. Ingat Hukum Newton I tentang inersia.', false);
-    } else if (hookChoice === 'D') {
-      showFeedback(fb, '❌ <strong>Belum tepat.</strong> Gaya gesek antara bus dan jalan bekerja pada bus, bukan mendorong tubuh penumpang ke depan. Tubuh terdorong karena inersia.', false);
+    if (hookChoice === correctOpt) {
+      showFeedback(fb, '✅ Jawabanmu tepat.', true);
     } else {
-      showFeedback(fb, '❌ <strong>Belum tepat.</strong> Udara di dalam bus ikut bergerak bersama bus. Penyebab utama adalah inersia — tubuh cenderung mempertahankan geraknya (Hukum Newton I).', false);
+      showFeedback(fb, '❌ Jawabanmu belum tepat. Jawaban yang benar disorot hijau.', false);
     }
+    this.disabled = true;
   });
 
   // ============ STEP 2: PREDIKSI ============
   document.querySelectorAll('#predQ1 .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#predQ1 .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       predQ1Choice = this.dataset.q1;
@@ -458,6 +442,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
   });
   document.querySelectorAll('#predQ2 .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#predQ2 .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       predQ2Choice = this.dataset.q2;
@@ -465,6 +450,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
   });
   document.querySelectorAll('#predQ3 .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#predQ3 .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       predQ3Choice = this.dataset.q3;
@@ -473,38 +459,42 @@ Berikut kode HTML lengkap yang sudah diperbarui:
 
   document.getElementById('predCheckBtn').addEventListener('click', function() {
     if (!predQ1Choice || !predQ2Choice || !predQ3Choice) { alert('Jawab ketiga pertanyaan terlebih dahulu.'); return; }
-    const fb = document.getElementById('predFeedback');
+    const correctQ1 = 'tidak', correctQ2 = 'B', correctQ3 = 'III';
     let correct = 0;
-    let details = '';
 
-    if (predQ1Choice === 'tidak') {
-      correct++;
-      details += '✅ <strong>Q1 benar.</strong> Gaya normal dan berat bukan pasangan aksi-reaksi — keduanya bekerja pada benda yang sama. Pasangan aksi-reaksi selalu bekerja pada <em>dua benda berbeda</em>.<br>';
-    } else {
-      details += '❌ <strong>Q1 belum tepat.</strong> Gaya normal dan berat bekerja pada buku yang sama. Pasangan aksi-reaksi harus bekerja pada dua benda berbeda. Contoh: berat buku (bumi↔buku) dan gaya tarik buku pada bumi.<br>';
-    }
+    // Q1
+    document.querySelectorAll('#predQ1 .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.q1 === correctQ1) { b.classList.add('correct'); }
+      else if (b.dataset.q1 === predQ1Choice) b.classList.add('wrong');
+    });
+    if (predQ1Choice === correctQ1) correct++;
 
-    if (predQ2Choice === 'B') {
-      correct++;
-      details += '✅ <strong>Q2 benar.</strong> Massa lebih kecil → percepatan lebih besar untuk gaya yang sama (a = F/m).<br>';
-    } else {
-      details += '❌ <strong>Q2 belum tepat.</strong> Hukum Newton II: a = F/m. Massa troli kosong lebih kecil, sehingga untuk gaya dorong yang sama, percepatannya lebih besar.<br>';
-    }
+    // Q2
+    document.querySelectorAll('#predQ2 .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.q2 === correctQ2) { b.classList.add('correct'); }
+      else if (b.dataset.q2 === predQ2Choice) b.classList.add('wrong');
+    });
+    if (predQ2Choice === correctQ2) correct++;
 
-    if (predQ3Choice === 'III') {
-      correct++;
-      details += '✅ <strong>Q3 benar.</strong> Udara didorong ke belakang (aksi), balon terdorong ke depan (reaksi) — Hukum Newton III.<br>';
-    } else {
-      details += '❌ <strong>Q3 belum tepat.</strong> Udara keluar ke belakang sebagai aksi, balon melesat ke depan sebagai reaksi. Ini adalah Hukum Newton III (aksi-reaksi).<br>';
-    }
+    // Q3
+    document.querySelectorAll('#predQ3 .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.q3 === correctQ3) { b.classList.add('correct'); }
+      else if (b.dataset.q3 === predQ3Choice) b.classList.add('wrong');
+    });
+    if (predQ3Choice === correctQ3) correct++;
 
-    const summary = `<strong>Skor: ${correct}/3</strong><br><br>${details}`;
-    showFeedback(fb, summary, correct === 3);
+    const fb = document.getElementById('predFeedback');
+    showFeedback(fb, `Skor: <strong>${correct}/3</strong>. Jawaban benar disorot hijau.`, correct === 3);
+    this.disabled = true;
   });
 
   // ============ STEP 3: MINI LAB ============
   document.querySelectorAll('#labPred1 .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#labPred1 .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       lab1Choice = this.dataset.lab1;
@@ -512,6 +502,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
   });
   document.querySelectorAll('#labPred2 .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#labPred2 .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       lab2Choice = this.dataset.lab2;
@@ -520,26 +511,26 @@ Berikut kode HTML lengkap yang sudah diperbarui:
 
   document.getElementById('labCheckBtn').addEventListener('click', function() {
     if (!lab1Choice || !lab2Choice) { alert('Pilih kedua prediksi terlebih dahulu.'); return; }
-    const fb = document.getElementById('labFeedback');
+    const correct1 = 'B', correct2 = 'A';
     let correct = 0;
-    let details = '';
 
-    if (lab1Choice === 'B') {
-      correct++;
-      details += '✅ <strong>Prediksi 1 benar.</strong> Massa diperbesar, gaya tetap → percepatan berkurang (a = F/m).<br>';
-    } else {
-      details += '❌ <strong>Prediksi 1 belum tepat.</strong> Dari data: gaya 2 N, massa 2 kg → a = 1 m/s². Massa lebih besar → percepatan lebih kecil.<br>';
-    }
+    document.querySelectorAll('#labPred1 .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.lab1 === correct1) b.classList.add('correct');
+      else if (b.dataset.lab1 === lab1Choice) b.classList.add('wrong');
+    });
+    if (lab1Choice === correct1) correct++;
 
-    if (lab2Choice === 'A') {
-      correct++;
-      details += '✅ <strong>Prediksi 2 benar.</strong> Gaya diperbesar, massa tetap → percepatan bertambah. Data: gaya 1 N → a = 1; gaya 2 N → a = 2.<br>';
-    } else {
-      details += '❌ <strong>Prediksi 2 belum tepat.</strong> Gaya 1 N → a = 1 m/s²; gaya 4 N → a = 2 m/s² (dengan massa 2 kg). Gaya lebih besar → percepatan lebih besar.<br>';
-    }
+    document.querySelectorAll('#labPred2 .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.lab2 === correct2) b.classList.add('correct');
+      else if (b.dataset.lab2 === lab2Choice) b.classList.add('wrong');
+    });
+    if (lab2Choice === correct2) correct++;
 
-    details += '<br><strong>Kesimpulan:</strong> a ∝ F dan a ∝ 1/m, sehingga <strong>F = m·a</strong> (Hukum Newton II).';
-    showFeedback(fb, `<strong>Skor: ${correct}/2</strong><br><br>${details}`, correct === 2);
+    const fb = document.getElementById('labFeedback');
+    showFeedback(fb, `Skor: <strong>${correct}/2</strong>. Jawaban benar disorot hijau.`, correct === 2);
+    this.disabled = true;
   });
 
   // ============ STEP 4: MISI ============
@@ -607,7 +598,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
     const input = document.getElementById('missionInput').value.trim();
     if (input.length < 15) { alert('Tuliskan analisis minimal 15 karakter.'); return; }
     const fb = document.getElementById('missionFeedback');
-    showFeedback(fb, '✅ <strong>Analisis kelompok diterima!</strong> Presentasikan hasilmu di depan kelas. Guru akan memberikan umpan balik. (Simulasi: analisis tersimpan di sistem.)', true);
+    showFeedback(fb, '✅ Analisis kelompok diterima! Presentasikan hasilmu di depan kelas.', true);
   });
 
   renderMission('1');
@@ -615,6 +606,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
   // ============ STEP 5: DEBAT ============
   document.querySelectorAll('#debateOptions .option-btn').forEach(btn => {
     btn.addEventListener('click', function() {
+      if (this.disabled) return;
       document.querySelectorAll('#debateOptions .option-btn').forEach(b => b.classList.remove('selected'));
       this.classList.add('selected');
       debateChoice = this.dataset.debate;
@@ -625,20 +617,24 @@ Berikut kode HTML lengkap yang sudah diperbarui:
     if (!debateChoice) { alert('Pilih pendapatmu terlebih dahulu.'); return; }
     const arg = document.getElementById('debateArg').value.trim();
     if (arg.length < 15) { alert('Tuliskan argumenmu minimal 15 karakter.'); return; }
+    const correct = 'tidak';
+    document.querySelectorAll('#debateOptions .option-btn').forEach(b => {
+      b.disabled = true;
+      if (b.dataset.debate === correct) b.classList.add('correct');
+      else if (b.dataset.debate === debateChoice) b.classList.add('wrong');
+    });
     const fb = document.getElementById('debateFeedback');
-
-    if (debateChoice === 'tidak') {
-      showFeedback(fb, `✅ <strong>Argumenmu kuat!</strong> Benda dengan kecepatan konstan memiliki resultan gaya nol (Hukum Newton I). Gaya tidak harus bekerja terus-menerus — gaya hanya diperlukan untuk <em>mengubah</em> kecepatan (percepatan), bukan untuk mempertahankannya.<br><br><em>Argumenmu: "${arg}"</em>`, true);
-    } else if (debateChoice === 'setuju') {
-      showFeedback(fb, `🤔 <strong>Mari telaah ulang.</strong> Jika gaya terus bekerja searah gerak, resultan gaya ≠ 0, sehingga benda akan <em>mengalami percepatan</em> — kecepatannya bertambah, bukan konstan. Kecepatan konstan berarti resultan gaya = 0 (Hukum Newton I).<br><br><em>Argumenmu: "${arg}"</em>`, false);
+    if (debateChoice === correct) {
+      showFeedback(fb, '✅ Argumenmu kuat dan pendapatmu tepat.', true);
     } else {
-      showFeedback(fb, `🤔 <strong>Mari berpikir kritis.</strong> Pernyataan tersebut <em>tidak tepat</em>. Kecepatan konstan → resultan gaya nol. Gaya hanya perlu untuk mengubah kecepatan. Coba kaitkan dengan pengalamanmu naik kendaraan.<br><br><em>Argumenmu: "${arg}"</em>`, null);
+      showFeedback(fb, '❌ Pendapatmu belum tepat. Jawaban yang benar disorot hijau. Diskusikan dengan temanmu.', false);
     }
+    this.disabled = true;
   });
 
   document.getElementById('debateExtraBtn').addEventListener('click', function() {
     const fb = document.getElementById('debateFeedback');
-    showFeedback(fb, '🔎 <strong>Pertanyaan lanjutan:</strong> Jika kamu mendorong meja dengan gaya 50 N tetapi meja tidak bergerak, apakah berarti Hukum Newton II dilanggar? Jelaskan!<br><br><em>Petunjuk: Ada gaya lain yang bekerja — gaya gesek statis. Resultan gaya = 0, sehingga percepatan = 0.</em>', null);
+    showFeedback(fb, '🔎 <strong>Pertanyaan lanjutan:</strong> Jika kamu mendorong meja dengan gaya 50 N tetapi meja tidak bergerak, apakah berarti Hukum Newton II dilanggar? Jelaskan!', null);
   });
 
   // ============ STEP 6: QUIZ (10 SOAL) ============
@@ -708,18 +704,12 @@ Berikut kode HTML lengkap yang sudah diperbarui:
       if (!confirm(`Masih ada ${unanswered} soal belum dijawab. Tetap selesaikan?`)) return;
     }
     let correct = 0;
-    let detail = '<strong>Hasil Quiz (10 Soal):</strong><br>';
-    quizQuestions.forEach((q, i) => {
-      const ans = quizAnswers[i];
-      const isCorrect = ans === q.correct;
-      if (isCorrect) correct++;
-      detail += `${isCorrect ? '✅' : '❌'} Soal ${i+1}: jawabanmu ${ans !== null ? q.opts[ans] : '(kosong)'}${!isCorrect ? ' — yang benar: ' + q.opts[q.correct] : ''}<br>`;
+    quizAnswers.forEach((ans, i) => {
+      if (ans === quizQuestions[i].correct) correct++;
     });
     const score = Math.round((correct / quizQuestions.length) * 100);
-    detail += `<br><strong>Total skor: ${score}/100</strong> — ${correct} benar dari ${quizQuestions.length}.`;
     const fb = document.getElementById('quizFeedback');
-    showFeedback(fb, detail, score >= 60);
-    updateQuizStats();
+    showFeedback(fb, `🏁 <strong>Quiz selesai!</strong> Skor akhir: <strong>${score}/100</strong> — ${correct} benar dari ${quizQuestions.length}.`, score >= 60);
   });
 
   // ============ STEP 7: REFLEKSI ============
@@ -737,7 +727,7 @@ Berikut kode HTML lengkap yang sudah diperbarui:
     if (refs.some(r => r.length < 3)) { alert('Isi semua kolom refleksi (minimal 3 karakter).'); return; }
     if (!confidenceLevel) { alert('Pilih tingkat keyakinanmu (1–5).'); return; }
     const fb = document.getElementById('reflectionFeedback');
-    showFeedback(fb, `🎉 <strong>Refleksi berhasil dikumpulkan!</strong><br><br>Kamu merasa <strong>${confidenceLevel}/5</strong> yakin tentang Hukum Newton. Terima kasih telah berpikir aktif hari ini. Ingat: fisika ada di setiap gerakan di sekitarmu!`, true);
+    showFeedback(fb, `🎉 Refleksi berhasil dikumpulkan! Kamu merasa <strong>${confidenceLevel}/5</strong> yakin tentang Hukum Newton.`, true);
   });
 
   document.getElementById('resetAllBtn').addEventListener('click', function() {
@@ -751,13 +741,23 @@ Berikut kode HTML lengkap yang sudah diperbarui:
     quizAnswers = new Array(quizQuestions.length).fill(null);
     quizIndex = 0;
 
-    document.querySelectorAll('.option-btn').forEach(b => { b.classList.remove('selected'); b.style.background = ''; b.disabled = false; });
+    document.querySelectorAll('.option-btn').forEach(b => {
+      b.classList.remove('selected', 'correct', 'wrong');
+      b.style.background = '';
+      b.disabled = false;
+    });
     document.querySelectorAll('.feedback').forEach(f => f.classList.add('hidden'));
     document.querySelectorAll('.exit-input').forEach(i => i.value = '');
     document.querySelectorAll('.conf-btn').forEach(b => { b.style.background = ''; b.style.color = ''; b.classList.remove('selected'); });
     document.getElementById('scoreDisplay').textContent = '0';
     document.getElementById('answeredDisplay').textContent = '0';
     document.getElementById('correctDisplay').textContent = '0';
+
+    // Re-enable check buttons
+    ['hookCheckBtn','predCheckBtn','labCheckBtn','debateCheckBtn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.disabled = false;
+    });
 
     document.querySelectorAll('.mission-tab').forEach(t => t.classList.remove('active'));
     document.querySelector('.mission-tab[data-mission="1"]').classList.add('active');
@@ -777,32 +777,26 @@ Berikut kode HTML lengkap yang sudah diperbarui:
 
 ## Ringkasan Perubahan
 
-### 1. Fitur Hook — 5 Opsi (A–E)
-| Opsi | Isi | Status |
-|------|-----|--------|
-| A | Gaya tambahan dari kursi ke depan | ❌ Miskonsepsi |
-| **B** | **Inersia (mempertahankan gerak)** | **✅ Benar** |
-| C | Gravitasi bertambah | ❌ Miskonsepsi |
-| D | Gaya gesek bus-jalan | ❌ Miskonsepsi |
-| E | Udara dalam bus mendorong | ❌ Miskonsepsi |
+### Yang Dihapus
+| Fitur | Sebelumnya | Sekarang |
+|-------|-----------|----------|
+| **Hook** | Penjelasan lengkap mengapa A/B/C/D/E benar/salah | Hanya "✅ Jawabanmu tepat" atau "❌ Belum tepat. Jawaban benar disorot hijau" |
+| **Prediksi** | Pembahasan rinci tiap soal | Hanya skor + jawaban benar disorot hijau |
+| **Mini Lab** | Kesimpulan F=ma & penjelasan data | Hanya skor + jawaban benar disorot hijau |
+| **Debat** | Umpan balik argumentatif panjang | Hanya "✅ Tepat" / "❌ Belum tepat" |
+| **Quiz (Selesai)** | Rekap per soal + kunci jawaban benar | Hanya skor akhir & jumlah benar |
 
-Setiap opsi mendapat umpan balik spesifik yang menjelaskan **mengapa** pilihan tersebut benar/salah.
+### Yang Dipertahankan (indikator visual)
+- **Opsi benar** → disorot hijau (`class="correct"`)
+- **Opsi salah yang dipilih** → disorot merah (`class="wrong"`)
+- **Tombol Cek** → dinonaktifkan setelah dipakai (tidak bisa ganti jawaban)
+- **Tombol Reset** → mengembalikan semua tombol ke keadaan awal
 
-### 2. Quiz — 10 Soal (dari 5)
-Distribusi soal:
+### Fitur Lain Tidak Berubah
+- Hook tetap **5 opsi** (A–E)
+- Quiz tetap **10 soal**
+- Refleksi & skala keyakinan tetap aktif
+- Semua tab tetap bisa diakses bebas
+- Misi dengan 5 tab kelompok tetap berfungsi
 
-| No | Tipe | Topik |
-|----|------|-------|
-| 1 | Konseptual | Resultan gaya pada kecepatan konstan |
-| 2 | Konseptual | Pasangan aksi-reaksi |
-| 3 | Hitungan | a = F/m (2 kg, 10 N) |
-| 4 | Analisis Fenomena | Penumpang bus mengerem |
-| 5 | HOTS | Gaya gesek statis pada balok diam |
-| 6 | Hitungan | F = m·a (4 kg, 3 m/s²) |
-| 7 | Konseptual | Ciri pasangan aksi-reaksi |
-| 8 | Analisis Fenomena | Aksi-reaksi dorong dinding |
-| 9 | Hitungan | Perbandingan percepatan (massa diubah) |
-| 10 | HOTS | Kinematika + Newton II (v₀, F, t → vₜ) |
-
-### 3. Penyesuaian Skor Quiz
-Skor maksimal sekarang **100** (setiap soal bernilai 10 poin), sehingga lebih mudah dibaca. Statistik menampilkan "Terjawab: X/10".
+Guru tetap bisa menjelaskan konsep secara lisan di kelas — halaman ini hanya memberi sinyal benar/salah tanpa membocorkan konsep.
