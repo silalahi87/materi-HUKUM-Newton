@@ -1,1 +1,832 @@
-selamat datang di dunia Newton
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hukum Newton X · Kelas Interaktif</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f5f9ff 0%, #e3edfa 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+    }
+
+    .app-container {
+      max-width: 1000px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 40px -12px rgba(0, 20, 50, 0.35);
+      padding: 1.8rem 1.8rem 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0b2a4a;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.25rem;
+    }
+
+    h1 span {
+      background: #1e4c7a;
+      color: #fff;
+      font-size: 1rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 40px;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+    }
+
+    .subhead {
+      color: #2c5779;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      border-bottom: 2px dashed #b6d0e8;
+      padding-bottom: 0.8rem;
+    }
+
+    .badge {
+      background: #d9e9ff;
+      color: #114b7a;
+      padding: 0.25rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .step-tracker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.8rem;
+      margin: 1.2rem 0 1.8rem;
+      justify-content: center;
+    }
+
+    .step-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: #eaf1fb;
+      padding: 0.4rem 1rem 0.4rem 0.8rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #1e4c7a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      transition: 0.2s;
+      border: 1.5px solid transparent;
+    }
+
+    .step-dot.active {
+      background: #1e4c7a;
+      color: white;
+      border-color: #ffd966;
+      box-shadow: 0 6px 12px rgba(20, 80, 140, 0.3);
+    }
+
+    .step-dot .num {
+      background: #ffffff;
+      color: #1e4c7a;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+
+    .step-dot.active .num {
+      background: #ffd966;
+      color: #1a3c5e;
+    }
+
+    .panel {
+      background: #ffffffd6;
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 1.5rem 1.8rem;
+      box-shadow: 0 12px 28px -12px rgba(0, 30, 60, 0.2);
+      border: 1px solid white;
+      transition: 0.3s ease;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel h2 {
+      font-size: 1.5rem;
+      color: #0b2a4a;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .panel h2 i {
+      font-style: normal;
+      font-size: 1.8rem;
+    }
+
+    .question-box {
+      background: #f0f6ff;
+      padding: 1.3rem 1.5rem;
+      border-radius: 1.5rem;
+      margin: 1rem 0;
+      border-left: 8px solid #1e4c7a;
+    }
+
+    .option-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+
+    .option-btn {
+      background: white;
+      border: 2px solid #cdddec;
+      padding: 0.9rem 1.2rem;
+      border-radius: 60px;
+      text-align: left;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1e3f5e;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      gap: 10px;
+    }
+
+    .option-btn:hover {
+      background: #e9f2fe;
+      border-color: #7aa9d9;
+      transform: scale(1.01);
+    }
+
+    .option-btn.selected {
+      background: #d4e6ff;
+      border-color: #1e4c7a;
+      box-shadow: 0 0 0 2px #1e4c7a33;
+    }
+
+    .feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      background: #fff6e0;
+      border-left: 6px solid #f4b740;
+    }
+
+    .btn {
+      border: none;
+      padding: 0.9rem 1.8rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1rem;
+      background: #1e4c7a;
+      color: white;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: 0 10px 18px -8px #1e4c7a99;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .btn:hover {
+      background: #113a5c;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 22px -8px #1e4c7acc;
+    }
+
+    .btn-secondary {
+      background: #e3eefb;
+      color: #1e4c7a;
+      box-shadow: none;
+      border: 1.5px solid #b8cfe4;
+    }
+
+    .btn-secondary:hover {
+      background: #d0e2f7;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .score-badge {
+      background: #ffd966;
+      padding: 0.4rem 1.2rem;
+      border-radius: 30px;
+      font-weight: 700;
+      color: #1d3b5a;
+      display: inline-block;
+    }
+
+    .quiz-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mission-card {
+      background: linear-gradient(120deg, #f0f7ff, #ffffff);
+      border-radius: 1.5rem;
+      padding: 1.2rem 1.5rem;
+      border: 1px solid #bdd6f0;
+      margin: 0.8rem 0;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .exit-input {
+      width: 100%;
+      padding: 0.9rem 1.2rem;
+      border-radius: 2rem;
+      border: 2px solid #cdddec;
+      font-size: 0.95rem;
+      margin: 0.6rem 0;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    .small-note {
+      font-size: 0.85rem;
+      color: #4e6b88;
+      margin-top: 0.5rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .emoji-icon {
+      font-size: 1.8rem;
+    }
+
+    .inline-tag {
+      background: #deecfc;
+      padding: 0.2rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1a4b7a;
+    }
+
+    .group-highlight {
+      background: #fff5da;
+      border-radius: 12px;
+      padding: 0.3rem 0.8rem;
+    }
+
+    hr {
+      margin: 1.2rem 0;
+      border: 1px dashed #b6d0e8;
+    }
+
+    @media (max-width: 650px) {
+      .app-container { padding: 1.2rem; }
+      .panel { padding: 1.2rem; }
+      h1 { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <h1>
+    ⚡ Hukum Newton
+    <span>Kelas X</span>
+  </h1>
+  <div class="subhead">
+    <span class="badge">Mystery Physics</span>
+    <span class="badge">Mini Lab</span>
+    <span class="badge">Physics Mission</span>
+    <span class="badge">Debate</span>
+    <span class="badge">Quiz Battle</span>
+  </div>
+
+  <!-- Step tracker -->
+  <div class="step-tracker" id="stepTracker">
+    <div class="step-dot active" data-step="1"><span class="num">1</span> Hook</div>
+    <div class="step-dot" data-step="2"><span class="num">2</span> Prediksi</div>
+    <div class="step-dot" data-step="3"><span class="num">3</span> Mini Lab</div>
+    <div class="step-dot" data-step="4"><span class="num">4</span> Misi</div>
+    <div class="step-dot" data-step="5"><span class="num">5</span> Debat</div>
+    <div class="step-dot" data-step="6"><span class="num">6</span> Quiz</div>
+    <div class="step-dot" data-step="7"><span class="num">7</span> Refleksi</div>
+  </div>
+
+  <!-- MAIN PANEL -->
+  <div class="panel" id="mainPanel">
+    <!-- STEP 1: HOOK -->
+    <div id="step1Content">
+      <h2><span class="emoji-icon">🚌</span> Fenomena 1: Mengapa tubuh terdorong ke depan?</h2>
+      <div class="question-box">
+        <p style="font-size:1.1rem; font-weight:500; margin-bottom:0.8rem;">Bayangkan bus melaju cepat, lalu pengemudi mengerem mendadak. Tubuhmu terasa terdorong ke depan. Mengapa?</p>
+        <p style="font-size:0.95rem; color:#2a4c6e;">Pilih jawaban yang paling sesuai dengan pemahamanmu saat ini.</p>
+      </div>
+      <div class="option-grid" id="hookOptions">
+        <button class="option-btn" data-opt="A">A. Tubuh mendapat gaya tambahan ke arah depan</button>
+        <button class="option-btn" data-opt="B">B. Tubuh cenderung mempertahankan keadaan geraknya (inersia)</button>
+        <button class="option-btn" data-opt="C">C. Gravitasi tiba-tiba bertambah besar saat mengerem</button>
+        <button class="option-btn" data-opt="D">D. Gaya gesek antara bus dan jalan mendorong tubuh ke depan</button>
+      </div>
+      <div id="hookFeedback" class="feedback hidden"></div>
+      <div class="btn-group">
+        <button class="btn" id="hookCheckBtn">🔍 Cek prediksi & argumentasi</button>
+        <button class="btn btn-secondary" id="hookNextBtn" disabled>Lanjut ke prediksi interaktif →</button>
+      </div>
+      <p class="small-note" style="margin-top:0.8rem;">*Guru tidak langsung memberi jawaban. Diskusikan alasanmu.</p>
+    </div>
+
+    <!-- STEP 2: INTERACTIVE CHALLENGE (Prediksi) -->
+    <div id="step2Content" class="hidden">
+      <h2><span class="emoji-icon">🎯</span> Interactive Challenge: Prediksi sebelum membuktikan</h2>
+      <p style="margin-bottom:1rem;">Jawab pertanyaan konseptual berikut. <strong>Jangan langsung melihat kunci</strong> — pertahankan argumentasimu.</p>
+      
+      <div class="mission-card">
+        <p><strong>1. Sebuah buku diam di atas meja. Gaya normal dan gaya berat bekerja pada buku. Kedua gaya ini adalah pasangan aksi-reaksi?</strong></p>
+        <div class="option-grid" id="predQ1">
+          <button class="option-btn" data-q1="setuju">✅ Setuju</button>
+          <button class="option-btn" data-q1="tidak">❌ Tidak setuju</button>
+        </div>
+      </div>
+
+      <div class="mission-card">
+        <p><strong>2. Troli kosong lebih mudah dipercepat daripada troli penuh. Ini karena...</strong></p>
+        <div class="option-grid" id="predQ2">
+          <button class="option-btn" data-q2="A">A. Gaya gesek troli kosong lebih kecil</button>
+          <button class="option-btn" data-q2="B">B. Massa troli kosong lebih kecil, sehingga percepatan lebih besar untuk gaya yang sama</button>
+          <button class="option-btn" data-q2="C">C. Troli kosong tidak memiliki inersia</button>
+        </div>
+      </div>
+
+      <div class="btn-group">
+        <button class="btn" id="predCheckBtn">📬 Kirim prediksi</button>
+        <button class="btn btn-secondary" id="predNextBtn" disabled>Lanjut ke Mini Lab →</button>
+      </div>
+      <div id="predFeedback" class="feedback hidden" style="margin-top:1rem;"></div>
+    </div>
+
+    <!-- STEP 3: MINI LAB -->
+    <div id="step3Content" class="hidden">
+      <h2><span class="emoji-icon">🧪</span> Mini Lab: Hukum Newton II</h2>
+      <div class="mission-card">
+        <p><strong>Tujuan:</strong> Menyelidiki hubungan resultan gaya, massa, dan percepatan.</p>
+        <p><strong>Alat & bahan:</strong> Troli mainan / mobil-mobilan, beban 50g, 100g, 200g, penggaris, stopwatch.</p>
+        <p><strong>Langkah:</strong></p>
+        <ol style="margin-left:1.4rem; margin-bottom:0.8rem;">
+          <li>Tarik troli dengan gaya tetap (misal beban 50g digantung).</li>
+          <li>Ukur waktu untuk menempuh jarak 1 meter. Hitung percepatan.</li>
+          <li>Ulangi dengan menambah beban pada troli (massa bertambah).</li>
+          <li>Ulangi dengan mengganti gaya tarik (beban lebih besar).</li>
+        </ol>
+        <p><strong>Prediksimu:</strong> Jika massa troli diperbesar tetapi gaya tetap, apa yang terjadi pada percepatan?</p>
+        <div class="option-grid" id="labPred">
+          <button class="option-btn" data-lab="A">A. Percepatan bertambah</button>
+          <button class="option-btn" data-lab="B">B. Percepatan berkurang</button>
+          <button class="option-btn" data-lab="C">C. Percepatan tetap</button>
+        </div>
+        <div id="labFeedback" class="feedback hidden" style="margin-top:0.8rem;"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="labCheckBtn">🔎 Cek prediksi eksperimen</button>
+        <button class="btn btn-secondary" id="labNextBtn" disabled>Lanjut ke Misi Kelompok →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: COLLABORATIVE MISSION -->
+    <div id="step4Content" class="hidden">
+      <h2><span class="emoji-icon">🚀</span> Physics Mission: Tantangan Kelompok</h2>
+      <p>Setiap kelompok mendapat misi berbeda. Pilih salah satu misi di bawah ini (simulasi kelompok):</p>
+      <div class="flex-row" style="margin:1rem 0;">
+        <button class="btn btn-secondary mission-btn" data-mission="1">Kelompok 1 (Newton I)</button>
+        <button class="btn btn-secondary mission-btn" data-mission="2">Kelompok 2 (Newton II)</button>
+        <button class="btn btn-secondary mission-btn" data-mission="3">Kelompok 3 (Newton III)</button>
+        <button class="btn btn-secondary mission-btn" data-mission="4">Kelompok 4 (Gaya gesek)</button>
+        <button class="btn btn-secondary mission-btn" data-mission="5">Kelompok 5 (Diagram gaya)</button>
+      </div>
+      <div id="missionDisplay" class="mission-card">
+        <p><em>Pilih misi kelompok di atas untuk melihat tantangan.</em></p>
+      </div>
+      <div id="missionAnswerArea" class="hidden">
+        <p><strong>Tuliskan analisis singkat kelompokmu:</strong></p>
+        <textarea class="exit-input" id="missionInput" rows="3" placeholder="Contoh: Berdasarkan Hukum Newton I, penumpang mempertahankan geraknya..."></textarea>
+        <button class="btn" id="missionSubmitBtn">📤 Kumpulkan analisis</button>
+        <div id="missionFeedback" class="feedback hidden" style="margin-top:0.8rem;"></div>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-secondary" id="missionNextBtn" disabled>Lanjut ke Debat →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: PHYSICS DEBATE -->
+    <div id="step5Content" class="hidden">
+      <h2><span class="emoji-icon">🗣️</span> Physics Debate</h2>
+      <div class="question-box">
+        <p style="font-size:1.1rem; font-weight:600;">“Jika sebuah benda bergerak dengan kecepatan konstan, berarti terdapat gaya yang terus-menerus bekerja searah gerak benda.”</p>
+      </div>
+      <div class="option-grid" id="debateOptions">
+        <button class="option-btn" data-debate="setuju">✅ Setuju</button>
+        <button class="option-btn" data-debate="tidak">❌ Tidak setuju</button>
+        <button class="option-btn" data-debate="belum">🤔 Belum yakin</button>
+      </div>
+      <div id="debateFeedback" class="feedback hidden" style="margin-top:1rem;"></div>
+      <div class="btn-group">
+        <button class="btn" id="debateCheckBtn">⚖️ Sampaikan argumen</button>
+        <button class="btn btn-secondary" id="debateNextBtn" disabled>Lanjut ke Quiz Battle →</button>
+      </div>
+    </div>
+
+    <!-- STEP 6: QUIZ BATTLE -->
+    <div id="step6Content" class="hidden">
+      <h2><span class="emoji-icon">🏆</span> Physics Quiz Battle</h2>
+      <p>5 soal menantang. Kumpulkan poin!</p>
+      <div id="quizContainer">
+        <!-- Quiz rendered via JS -->
+      </div>
+      <div class="flex-row" style="justify-content: space-between; align-items:center; margin-top:1rem;">
+        <span class="score-badge" id="scoreDisplay">Skor: 0</span>
+        <button class="btn" id="quizNextBtn" disabled>Lanjut ke Refleksi →</button>
+      </div>
+      <div id="quizFeedback" class="feedback hidden" style="margin-top:1rem;"></div>
+    </div>
+
+    <!-- STEP 7: EXIT TICKET & REFLECTION -->
+    <div id="step7Content" class="hidden">
+      <h2><span class="emoji-icon">📝</span> Exit Ticket & Refleksi</h2>
+      <div class="mission-card">
+        <p><strong>1. Konsep apa yang paling Anda pahami hari ini?</strong></p>
+        <input class="exit-input" id="ref1" placeholder="Tulis di sini...">
+        <p><strong>2. Miskonsepsi apa yang berhasil Anda perbaiki?</strong></p>
+        <input class="exit-input" id="ref2" placeholder="Tulis di sini...">
+        <p><strong>3. Fenomena di sekitar yang sekarang dapat dijelaskan dengan Hukum Newton?</strong></p>
+        <input class="exit-input" id="ref3" placeholder="Tulis di sini...">
+        <p><strong>Pertanyaan transfer:</strong> Jika harus menjelaskan salah satu Hukum Newton dengan satu fenomena nyata, fenomena apa yang kamu pilih dan bagaimana penjelasannya?</p>
+        <textarea class="exit-input" id="ref4" rows="2" placeholder="Fenomena & penjelasan..."></textarea>
+      </div>
+      <div class="btn-group">
+        <button class="btn" id="reflectionSubmit">📌 Kumpulkan refleksi</button>
+        <button class="btn btn-secondary" id="resetAllBtn">🔄 Ulangi pembelajaran</button>
+      </div>
+      <div id="reflectionFeedback" class="feedback hidden" style="margin-top:1rem;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // State
+    let currentStep = 1;
+    let hookChoice = null;
+    let hookChecked = false;
+    let predQ1Choice = null;
+    let predQ2Choice = null;
+    let predChecked = false;
+    let labChoice = null;
+    let labChecked = false;
+    let selectedMission = null;
+    let missionCompleted = false;
+    let debateChoice = null;
+    let debateChecked = false;
+    let quizScore = 0;
+    let quizAnswered = 0;
+    let quizQuestions = [
+      { q: "Sebuah benda bergerak dengan kecepatan konstan. Apa yang dapat disimpulkan tentang resultan gaya?", opts: ["Resultan gaya nol", "Resultan gaya konstan tidak nol", "Resultan gaya searah gerak", "Resultan gaya berlawanan gerak"], correct: 0 },
+      { q: "Hukum Newton III menyatakan bahwa...", opts: ["Aksi = reaksi, bekerja pada benda yang sama", "Aksi = reaksi, bekerja pada benda berbeda", "Gaya aksi lebih besar dari reaksi", "Reaksi hanya terjadi pada benda diam"], correct: 1 },
+      { q: "Troli bermassa 2 kg didorong dengan gaya 10 N. Percepatan troli adalah...", opts: ["2 m/s²", "5 m/s²", "10 m/s²", "20 m/s²"], correct: 1 },
+      { q: "Mengapa penumpang terdorong ke depan saat bus mengerem mendadak?", opts: ["Karena gaya dorong dari kursi", "Karena inersia (kecenderungan mempertahankan gerak)", "Karena gravitasi bertambah", "Karena gaya gesek ban"], correct: 1 },
+      { q: "HOTS: Sebuah balok diam di lantai kasar. Gaya tarik horizontal 20 N diberikan, tetapi balok tetap diam. Gaya gesek statis yang bekerja sebesar...", opts: ["0 N", "20 N", "lebih dari 20 N", "tidak dapat ditentukan"], correct: 1 }
+    ];
+
+    // DOM refs
+    const stepContents = {
+      1: document.getElementById('step1Content'),
+      2: document.getElementById('step2Content'),
+      3: document.getElementById('step3Content'),
+      4: document.getElementById('step4Content'),
+      5: document.getElementById('step5Content'),
+      6: document.getElementById('step6Content'),
+      7: document.getElementById('step7Content')
+    };
+    const stepDots = document.querySelectorAll('.step-dot');
+
+    // Helper functions
+    function setStep(step) {
+      currentStep = step;
+      for (let i = 1; i <= 7; i++) {
+        if (stepContents[i]) stepContents[i].classList.toggle('hidden', i !== step);
+      }
+      stepDots.forEach(dot => {
+        const s = parseInt(dot.dataset.step);
+        dot.classList.toggle('active', s === step);
+      });
+    }
+
+    function showFeedback(el, msg, isCorrect = null) {
+      el.classList.remove('hidden');
+      el.innerHTML = msg;
+      if (isCorrect === true) el.style.borderLeftColor = '#2b8c4a';
+      else if (isCorrect === false) el.style.borderLeftColor = '#c0392b';
+      else el.style.borderLeftColor = '#f4b740';
+    }
+
+    // ---- Step 1 Hook ----
+    document.querySelectorAll('#hookOptions .option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#hookOptions .option-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        hookChoice = this.dataset.opt;
+      });
+    });
+
+    document.getElementById('hookCheckBtn').addEventListener('click', function() {
+      if (!hookChoice) {
+        alert('Pilih salah satu jawaban terlebih dahulu.');
+        return;
+      }
+      const fb = document.getElementById('hookFeedback');
+      let msg = '';
+      if (hookChoice === 'B') {
+        msg = '✅ Tepat! Tubuh cenderung mempertahankan keadaan geraknya (inersia) — ini Hukum Newton I.';
+        showFeedback(fb, msg, true);
+      } else {
+        msg = '🤔 Belum tepat. Ingat: benda cenderung mempertahankan keadaan geraknya. Coba pikirkan lagi tentang inersia.';
+        showFeedback(fb, msg, false);
+      }
+      hookChecked = true;
+      document.getElementById('hookNextBtn').disabled = false;
+    });
+
+    document.getElementById('hookNextBtn').addEventListener('click', function() {
+      setStep(2);
+    });
+
+    // ---- Step 2 Prediksi ----
+    document.querySelectorAll('#predQ1 .option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#predQ1 .option-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        predQ1Choice = this.dataset.q1;
+      });
+    });
+    document.querySelectorAll('#predQ2 .option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#predQ2 .option-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        predQ2Choice = this.dataset.q2;
+      });
+    });
+
+    document.getElementById('predCheckBtn').addEventListener('click', function() {
+      if (!predQ1Choice || !predQ2Choice) {
+        alert('Jawab kedua pertanyaan terlebih dahulu.');
+        return;
+      }
+      let fb = document.getElementById('predFeedback');
+      let msg = '';
+      let correctCount = 0;
+      if (predQ1Choice === 'tidak') correctCount++;
+      if (predQ2Choice === 'B') correctCount++;
+      msg = `Kamu menjawab benar ${correctCount} dari 2. `;
+      if (predQ1Choice === 'tidak') msg += '✅ Gaya normal dan berat bukan pasangan aksi-reaksi (bekerja pada benda yang sama). ';
+      else msg += '❌ Gaya normal dan berat bekerja pada benda yang sama, bukan aksi-reaksi. ';
+      if (predQ2Choice === 'B') msg += '✅ Massa lebih kecil → percepatan lebih besar (F=ma). ';
+      else msg += '❌ Ingat Hukum Newton II: a = F/m. Massa lebih kecil berarti percepatan lebih besar. ';
+      showFeedback(fb, msg, correctCount === 2);
+      predChecked = true;
+      document.getElementById('predNextBtn').disabled = false;
+    });
+
+    document.getElementById('predNextBtn').addEventListener('click', function() {
+      setStep(3);
+    });
+
+    // ---- Step 3 Mini Lab ----
+    document.querySelectorAll('#labPred .option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#labPred .option-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        labChoice = this.dataset.lab;
+      });
+    });
+
+    document.getElementById('labCheckBtn').addEventListener('click', function() {
+      if (!labChoice) { alert('Pilih prediksi dulu.'); return; }
+      let fb = document.getElementById('labFeedback');
+      if (labChoice === 'B') {
+        showFeedback(fb, '✅ Benar! Jika massa diperbesar dengan gaya tetap, percepatan berkurang (a = F/m).', true);
+      } else {
+        showFeedback(fb, '❌ Kurang tepat. Ingat Hukum Newton II: percepatan berbanding terbalik dengan massa.', false);
+      }
+      labChecked = true;
+      document.getElementById('labNextBtn').disabled = false;
+    });
+
+    document.getElementById('labNextBtn').addEventListener('click', function() {
+      setStep(4);
+    });
+
+    // ---- Step 4 Mission ----
+    const missionTexts = {
+      1: 'Kelompok 1: Analisis Hukum Newton I pada penumpang kendaraan. Jelaskan mengapa penumpang terdorong ke depan saat bus mengerem!',
+      2: 'Kelompok 2: Analisis Hukum Newton II pada troli dengan massa berbeda. Bagaimana pengaruh massa terhadap percepatan jika gaya tetap?',
+      3: 'Kelompok 3: Analisis Hukum Newton III pada gerak roket atau balon. Jelaskan pasangan aksi-reaksi yang terjadi!',
+      4: 'Kelompok 4: Analisis gaya gesek pada gerakan benda. Mengapa benda yang didorong akhirnya berhenti?',
+      5: 'Kelompok 5: Identifikasi gaya-gaya yang bekerja pada benda menggunakan diagram gaya bebas. Gambarkan (deskripsikan) gaya pada buku di atas meja!'
+    };
+
+    document.querySelectorAll('.mission-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        selectedMission = this.dataset.mission;
+        document.getElementById('missionDisplay').innerHTML = `<p><strong>Misi terpilih:</strong> ${missionTexts[selectedMission]}</p>`;
+        document.getElementById('missionAnswerArea').classList.remove('hidden');
+        document.getElementById('missionInput').value = '';
+        document.getElementById('missionFeedback').classList.add('hidden');
+        missionCompleted = false;
+        document.getElementById('missionNextBtn').disabled = true;
+      });
+    });
+
+    document.getElementById('missionSubmitBtn').addEventListener('click', function() {
+      const input = document.getElementById('missionInput').value.trim();
+      if (input.length < 10) {
+        alert('Tuliskan analisis minimal 10 karakter.');
+        return;
+      }
+      const fb = document.getElementById('missionFeedback');
+      showFeedback(fb, '✅ Analisis kelompok diterima! Diskusikan dengan guru dan teman kelompokmu. (Ini adalah simulasi — di kelas nyata, presentasikan hasilmu.)', true);
+      missionCompleted = true;
+      document.getElementById('missionNextBtn').disabled = false;
+    });
+
+    document.getElementById('missionNextBtn').addEventListener('click', function() {
+      setStep(5);
+    });
+
+    // ---- Step 5 Debate ----
+    document.querySelectorAll('#debateOptions .option-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('#debateOptions .option-btn').forEach(b => b.classList.remove('selected'));
+        this.classList.add('selected');
+        debateChoice = this.dataset.debate;
+      });
+    });
+
+    document.getElementById('debateCheckBtn').addEventListener('click', function() {
+      if (!debateChoice) { alert('Pilih pendapatmu.'); return; }
+      const fb = document.getElementById('debateFeedback');
+      if (debateChoice === 'tidak') {
+        showFeedback(fb, '✅ Benar! Jika kecepatan konstan, resultan gaya = nol (Hukum Newton I). Tidak perlu gaya terus-menerus. Gaya hanya diperlukan untuk mengubah kecepatan.', true);
+      } else {
+        showFeedback(fb, '🤔 Perhatikan: benda dengan kecepatan konstan memiliki resultan gaya nol. Gaya tidak harus bekerja terus-menerus. Diskusikan dengan temanmu.', false);
+      }
+      debateChecked = true;
+      document.getElementById('debateNextBtn').disabled = false;
+    });
+
+    document.getElementById('debateNextBtn').addEventListener('click', function() {
+      setStep(6);
+      renderQuiz();
+    });
+
+    // ---- Step 6 Quiz Battle ----
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      if (!container) return;
+      container.innerHTML = '';
+      quizScore = 0;
+      quizAnswered = 0;
+      document.getElementById('scoreDisplay').textContent = 'Skor: 0';
+      document.getElementById('quizNextBtn').disabled = true;
+      document.getElementById('quizFeedback').classList.add('hidden');
+
+      quizQuestions.forEach((q, idx) => {
+        const card = document.createElement('div');
+        card.className = 'mission-card';
+        card.style.marginBottom = '1rem';
+        card.innerHTML = `<p><strong>${idx+1}. ${q.q}</strong></p>`;
+        const optDiv = document.createElement('div');
+        optDiv.className = 'option-grid';
+        q.opts.forEach((opt, optIdx) => {
+          const btn = document.createElement('button');
+          btn.className = 'option-btn';
+          btn.textContent = opt;
+          btn.dataset.qIdx = idx;
+          btn.dataset.optIdx = optIdx;
+          btn.addEventListener('click', function() {
+            // Only allow one selection per question
+            const parent = this.closest('.option-grid');
+            parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+            // Check answer
+            const qIdx = parseInt(this.dataset.qIdx);
+            const selectedOpt = parseInt(this.dataset.optIdx);
+            const alreadyAnswered = parent.dataset.answered === 'true';
+            if (alreadyAnswered) return;
+            parent.dataset.answered = 'true';
+            quizAnswered++;
+            const correct = quizQuestions[qIdx].correct;
+            if (selectedOpt === correct) {
+              quizScore += 20;
+              this.style.background = '#c8f0d8';
+            } else {
+              this.style.background = '#f8d0d0';
+            }
+            // disable all buttons in this question
+            parent.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+            document.getElementById('scoreDisplay').textContent = `Skor: ${quizScore}`;
+            if (quizAnswered === quizQuestions.length) {
+              document.getElementById('quizNextBtn').disabled = false;
+              showFeedback(document.getElementById('quizFeedback'), `🏁 Semua soal dijawab! Skor akhir: ${quizScore} poin.`, quizScore >= 60);
+            }
+          });
+          optDiv.appendChild(btn);
+        });
+        card.appendChild(optDiv);
+        container.appendChild(card);
+      });
+    }
+
+    document.getElementById('quizNextBtn').addEventListener('click', function() {
+      setStep(7);
+    });
+
+    // ---- Step 7 Reflection ----
+    document.getElementById('reflectionSubmit').addEventListener('click', function() {
+      const refs = ['ref1','ref2','ref3','ref4'].map(id => document.getElementById(id).value.trim());
+      if (refs.some(r => r.length < 3)) {
+        alert('Isi semua kolom refleksi (minimal 3 karakter).');
+        return;
+      }
+      showFeedback(document.getElementById('reflectionFeedback'), '🎉 Refleksi berhasil dikumpulkan. Pembelajaran selesai! Terima kasih telah berpikir aktif.', true);
+    });
+
+    document.getElementById('resetAllBtn').addEventListener('click', function() {
+      // Reset all state and go to step 1
+      currentStep = 1;
+      hookChoice = null; hookChecked = false;
+      predQ1Choice = null; predQ2Choice = null; predChecked = false;
+      labChoice = null; labChecked = false;
+      selectedMission = null; missionCompleted = false;
+      debateChoice = null; debateChecked = false;
+      quizScore = 0; quizAnswered = 0;
+      // Clear UI selections
+      document.querySelectorAll('.option-btn').forEach(b => { b.classList.remove('selected'); b.style.background = ''; b.disabled = false; });
+      document.querySelectorAll('.option-grid').forEach(g => g.dataset.answered = 'false');
+      document.querySelectorAll('#hookOptions .option-btn, #predQ1 .option-btn, #predQ2 .option-btn, #labPred .option-btn, #debateOptions .option-btn').forEach(b => b.disabled = false);
+      document.querySelectorAll('#hookFeedback, #predFeedback, #labFeedback, #debateFeedback, #missionFeedback, #quizFeedback, #reflectionFeedback').forEach(el => el.classList.add('hidden'));
+      document.getElementById('hookNextBtn').disabled = true;
+      document.getElementById('predNextBtn').disabled = true;
+      document.getElementById('labNextBtn').disabled = true;
+      document.getElementById('missionNextBtn').disabled = true;
+      document.getElementById('debateNextBtn').disabled = true;
+      document.getElementById('quizNextBtn').disabled = true;
+      document.getElementById('missionDisplay').innerHTML = '<p><em>Pilih misi kelompok di atas untuk melihat tantangan.</em></p>';
+      document.getElementById('missionAnswerArea').classList.add('hidden');
+      document.getElementById('missionInput').value = '';
+      ['ref1','ref2','ref3','ref4'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('scoreDisplay').textContent = 'Skor: 0';
+      setStep(1);
+    });
+
+    // Initial set up
+    setStep(1);
+    // Initialize quiz answers
+    document.querySelectorAll('.option-grid').forEach(g => g.dataset.answered = 'false');
+  })();
+</script>
+</body>
+</html>
